@@ -19,6 +19,7 @@ module.exports = {
         target: 'http://127.0.0.1:7777'
 
       },
+      //解决跨域问题，所有的以/api/cms开头的请求都进行转发到下面的地址进行请求，将/api替换掉
       '/api/cms': {
         target: 'http://localhost:31001',
         pathRewrite: {
