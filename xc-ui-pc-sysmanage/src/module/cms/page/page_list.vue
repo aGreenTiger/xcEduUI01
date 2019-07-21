@@ -1,7 +1,19 @@
 <template>
   <div>
     <!--编写静态页面部分，即view部分-->
-    <el-button type="primary" size="small" v-on:click="query">查询</el-button>
+    <!-- 查询表单 -->
+    <el-form :model="params">
+      <el-select v-model="params.siteId" placeholder="请选择站点">
+        <el-option
+        v-for="item in siteList"
+        :key="item.siteId"
+        :label="item.siteName"
+        :value="item.siteId">
+        </el-option>
+      </el-select>
+      页面别名：<el-input v-model="params.pageAliase" style="width:100px"></el-input>
+      <el-button type="primary" size="small" v-on:click="query">查询</el-button>
+    </el-form>
     <el-table
       :data="list"
       stripe
@@ -33,22 +45,26 @@
 </template>
 <script>
   /*编写页面的静态部分，即model,即vm部分*/
-  import * as cmaApi from '../api/cms'
+  import * as cmsApi from '../api/cms'
   export default {
     data() {
       return {
+        siteList:[],//站点列表
         list: [],
         total: 0,
         params: {
           page: 1,
-          size: 7
+          size: 7,
+          siteId: '',
+          pageAlise: ''
         }
       }
     },
     methods:{
+      //页面查询
       query:function () {
         //请求是异步请求，服务端返回的数据会调用回调方法
-        cmaApi.page_list(this.params.page,this.params.size).then((result)=>{
+        cmsApi.page_list(this.params.page,this.params.size,this.params).then((result)=>{
           //将result结果数据赋值给数据模型对象,this表示当前vue实例
           this.list = result.queryResult.list;
           this.total = result.queryResult.total;
@@ -57,11 +73,18 @@
       changePage:function (page) { //形参是当前页码
         this.params.page = page
         this.query()
+      },
+      querySite:function(){
+        cmsApi.site_list().then((result) =>{
+          this.siteList = result.queryResult.list
+        })
       }
     },
     //钩子方法，当DOM元素全部渲染完成后调用狗子方法
     created(){
       this.query()
+      //初始化站点列表
+      this.querySite()
     }
   }
 </script>
