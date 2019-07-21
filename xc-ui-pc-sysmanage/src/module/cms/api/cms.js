@@ -11,8 +11,18 @@ export const page_list = (page,size,params) =>{
   //请求服务端的接口
   return http.requestQuickGet(apiUrl + '/cms/page/list/'+page+'/'+size + '?' + queryString);
 }
+//新增
+export const page_add = params =>{
+  return http.requestPost(apiUrl + '/cms/page/add',params)
+}
+
 //站点查询
 export const site_list = () =>{
   return http.requestQuickGet(apiUrl + '/cms/site/siteList')
+}
+
+//模板查询
+export const template_list = () =>{
+  return http.requestQuickGet(apiUrl + '/cms/template/list')
 }
 

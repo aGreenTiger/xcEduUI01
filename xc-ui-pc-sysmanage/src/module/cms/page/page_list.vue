@@ -13,6 +13,13 @@
       </el-select>
       页面别名：<el-input v-model="params.pageAliase" style="width:100px"></el-input>
       <el-button type="primary" size="small" v-on:click="query">查询</el-button>
+      <!-- router-link相当于a标签，后边的to是路由地址 -->
+      <router-link :to="{path:'/cms/page/add',query:{
+        page:this.params.page,
+        siteId:this.params.siteId
+      }}">
+        <el-button type="primary" size="small">新增页面</el-button>
+      </router-link>
     </el-form>
     <el-table
       :data="list"
@@ -80,8 +87,14 @@
         })
       }
     },
-    //钩子方法，当DOM元素全部渲染完成后调用狗子方法
+    //当DOM元素还没有渲染时调用钩子方法
     created(){
+      //获取当前路由中的参数，赋值给数据对象，地址栏中取出的字符串要抓换成数字，没有的话转换成1，防止路由中没有该参数，转换时失败报错
+      this.params.page = Number.parseInt(this.$route.query.page || 1)
+      this.params.siteId =  this.$route.query.siteId || ''
+    },
+    //钩子方法，当DOM元素全部渲染完成后调用狗子方法
+    mounted(){
       this.query()
       //初始化站点列表
       this.querySite()
