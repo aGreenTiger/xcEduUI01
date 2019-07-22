@@ -16,6 +16,21 @@ export const page_add = params =>{
   return http.requestPost(apiUrl + '/cms/page/add',params)
 }
 
+//cms页面修改
+export const page_edit = (pageId,pageForm) =>{
+  return http.requestPut(apiUrl + '/cms/page/edit/' + pageId,pageForm)
+}
+
+//根据主键查询页面信息
+export const page_get = pageId =>{
+  return http.requestQuickGet(apiUrl + '/cms/page/get/' + pageId)
+}
+
+//删除页面
+export const page_del = pageId =>{
+  return http.requestDelete(apiUrl + '/cms/page/delete/' + pageId)
+}
+
 //站点查询
 export const site_list = () =>{
   return http.requestQuickGet(apiUrl + '/cms/site/siteList')
@@ -25,4 +40,5 @@ export const site_list = () =>{
 export const template_list = () =>{
   return http.requestQuickGet(apiUrl + '/cms/template/list')
 }
+
 
