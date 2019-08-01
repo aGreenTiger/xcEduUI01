@@ -24,6 +24,8 @@
     <el-table
       :data="list"
       stripe
+      highlight-current-row 
+      v-loading="listLoading"
       style="width: 100%">
       <el-table-column type="index" width="60">
       </el-table-column>
@@ -31,21 +33,25 @@
       </el-table-column>
       <el-table-column prop="pageAliase" label="别名" width="120">
       </el-table-column>
-      <el-table-column prop="pageType" label="页面类型" width="150">
+      <el-table-column prop="pageType" label="页面类型" width="100">
       </el-table-column>
-      <el-table-column prop="pageWebPath" label="访问路径" width="250">
+      <el-table-column prop="pageWebPath" label="访问路径" width="200">
       </el-table-column>
       <el-table-column prop="pagePhysicalPath" label="物理路径" width="250">
       </el-table-column>
-      <el-table-column prop="pageCreateTime" label="创建时间" width="180">
-      </el-table-column>
-      <el-table-column label="操作" width="80">
+      <el-table-column label="操作" width="225">
         <template slot-scope="page">
           <el-button size="small" type="text"
           @click="edit(page.row.pageId)">编辑
           </el-button>
           <el-button size="small" type="text"
           @click="del(page.row.pageId)">删除
+          </el-button>
+          <el-button @click="preview(page.row.pageId)" 
+          type="text" size="small">页面预览
+          </el-button>
+          <el-button 
+          type="text" size="small">页面发布
           </el-button>
         </template>
       </el-table-column>
@@ -118,6 +124,10 @@
               }
             })
         })
+      },
+      preview:function(pageId){
+        //打开浏览器窗口
+        window.open("http://www.xuecheng.com/cms/preview/" + pageId);
       }
     },
     //当DOM元素还没有渲染时调用钩子方法
